@@ -207,11 +207,11 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
     <div>
       <p class="eyebrow">Jahrestour · 2008 – 2026</p>
       <h1>Tourkarte 2008–2026</h1>
-      <p class="lede">Neunzehn Jahre, siebzehn Touren, dreiundzwanzig Orte. Tippe auf einen Pin oder einen Eintrag in der Chronik.</p>
+      <p class="lede">Neunzehn Jahre, siebzehn Touren, vierundzwanzig Orte. Tippe auf einen Pin oder einen Eintrag in der Chronik.</p>
     </div>
     <div class="figures">
       <div class="fig"><b>17</b><span>Touren</span></div>
-      <div class="fig"><b>23</b><span>Orte</span></div>
+      <div class="fig"><b>24</b><span>Orte</span></div>
       <div class="fig"><b>13</b><span>Länder</span></div>
       <div class="fig"><b>19</b><span>Jahre</span></div>
     </div>
@@ -229,7 +229,7 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
       </div>
       <div class="legend">
         <span><i class="sw a"></i>Jahrestour</span>
-        <span><i class="sw b"></i>2008 · EU Trip, sieben Stationen</span>
+        <span><i class="sw b"></i>2008 · EU Trip, acht Stationen</span>
         <span class="hint">Klicken isoliert eine Tour · Esc hebt auf</span>
       </div>
     </div>
@@ -252,9 +252,10 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
 
 <script>
 const TRIPS = [
-  {y:2008, name:"EU Trip", note:"sieben Stationen", tour:true, stops:[
+  {y:2008, name:"EU Trip", note:"acht Stationen", tour:true, stops:[
     ["Olbia","Italien","e"],["Stockholm","Schweden","e"],["Paris","Frankreich","w"],
-    ["Valencia","Spanien","s"],["Bilbao","Spanien","w"],["Pisa","Italien","w"],["Catania","Italien","e"]]},
+    ["Valencia","Spanien","s"],["Bilbao","Spanien","w"],["Pisa","Italien","w"],
+    ["Rom","Italien","e"],["Catania","Italien","e"]]},
   {y:2009, name:"Barcelona", stops:[["Barcelona","Spanien","e"]]},
   {y:2009, name:"Prag", rep:true, stops:[["Prag","Tschechien","e"]]},
   {y:2010, name:"Rimini", note:"ohne Steven", stops:[["Rimini","Italien","e"]]},
@@ -273,7 +274,7 @@ const TRIPS = [
   {y:2026, name:"Bratislava", stops:[["Bratislava","Slowakei","e"]]},
 ];
 const GAPS = {2016:8, 2020:11, 2021:11};   // year -> index of the trip it follows
-const XY = {"Olbia": [510.2, 662], "Stockholm": [645.5, 108.3], "Paris": [372.8, 419.4], "Valencia": [282.5, 689.3], "Bilbao": [243.1, 569], "Pisa": [529.9, 579], "Catania": [642.7, 760.4], "Barcelona": [346.8, 639.4], "Prag": [605.7, 388.3], "Rimini": [576.1, 567.9], "Wien": [646.9, 440.8], "Lissabon": [78.5, 672.4], "Chiemsee": [570.3, 454.8], "Nizza": [462.7, 578.1], "Amsterdam": [429, 319.7], "Budapest": [701.7, 456.4], "Dresden": [591, 360.2], "Bukarest": [859.8, 522.3], "Spessart": [510, 391.4], "Nürnberg": [542.1, 409], "Brüssel": [415.9, 364], "Bremen": [500.1, 301.6], "Bratislava": [661.5, 441.2]};
+const XY = {"Olbia": [510.2, 662], "Stockholm": [645.5, 108.3], "Paris": [372.8, 419.4], "Valencia": [282.5, 689.3], "Bilbao": [243.1, 569], "Pisa": [529.9, 579], "Catania": [642.7, 760.4], "Barcelona": [346.8, 639.4], "Prag": [605.7, 388.3], "Rimini": [576.1, 567.9], "Wien": [646.9, 440.8], "Lissabon": [78.5, 672.4], "Chiemsee": [570.3, 454.8], "Nizza": [462.7, 578.1], "Amsterdam": [429, 319.7], "Budapest": [701.7, 456.4], "Dresden": [591, 360.2], "Bukarest": [859.8, 522.3], "Spessart": [510, 391.4], "Nürnberg": [542.1, 409], "Brüssel": [415.9, 364], "Bremen": [500.1, 301.6], "Bratislava": [661.5, 441.2], "Rom": [576.7, 632]};
 const W = 1000, H = 828;
 
 const pinsEl = document.getElementById("pins");
