@@ -8,6 +8,7 @@
   --paper:#dfe4e4; --card:#fcfbf8; --edge:#ccd4d4;
   --accent:#bf4126; --accent-soft:#bf412618;
   --tour:#9c6b10; --tour-soft:#9c6b1018;
+  --idea:#1d6f8a; --idea-soft:#1d6f8a14;
   --focus:#1f6f86;
 }
 @media (prefers-color-scheme:dark){
@@ -17,6 +18,7 @@
     --paper:#0e1a1f; --card:#152329; --edge:#283a42;
     --accent:#ff7047; --accent-soft:#ff704722;
     --tour:#e2a444; --tour-soft:#e2a44422;
+    --idea:#63c3dd; --idea-soft:#63c3dd1e;
     --focus:#5bbcd8;
   }
 }
@@ -26,6 +28,7 @@
   --paper:#0e1a1f; --card:#152329; --edge:#283a42;
   --accent:#ff7047; --accent-soft:#ff704722;
   --tour:#e2a444; --tour-soft:#e2a44422;
+    --idea:#63c3dd; --idea-soft:#63c3dd1e;
   --focus:#5bbcd8;
 }
 
@@ -103,6 +106,21 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
 .pin[data-dir="n"]  .tag{bottom:10px; left:50%; transform:translateX(-50%)}
 .pin[data-dir="sw"] .tag{right:8px;  top:9px}
 
+.pin.idea .dot{
+  width:18px; height:18px; background:transparent; border:1.5px dashed var(--idea);
+  box-shadow:none; display:grid; place-items:center;
+  transition:width .18s, height .18s, background .18s;
+}
+.pin.idea .dot i{
+  font:600 9.5px/1 "IBM Plex Mono",ui-monospace,monospace; font-style:normal;
+  color:var(--idea); font-variant-numeric:tabular-nums;
+}
+.pin.idea .tag{color:var(--idea); border:1px dashed color-mix(in srgb, var(--idea) 45%, transparent)}
+.pin.idea.hot .dot{width:21px; height:21px; background:var(--idea); border-style:solid}
+.pin.idea.hot .dot i{color:var(--card)}
+.pin.idea.hot .tag{background:var(--idea); color:#fff; border-color:var(--idea)}
+.pins.hide-ideas .pin.idea{display:none}
+
 /* states */
 .pin.hot .dot{width:17px; height:17px; box-shadow:0 0 0 3px var(--card), 0 0 0 7px var(--accent-soft), 0 2px 6px #0006}
 .pin.tour.hot .dot{box-shadow:0 0 0 3px var(--card), 0 0 0 7px var(--tour-soft), 0 2px 6px #0006}
@@ -121,6 +139,10 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
 }
 .legend .sw{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; vertical-align:-1px}
 .legend .sw.a{background:var(--accent)} .legend .sw.b{background:var(--tour)}
+.legend .sw.c{background:transparent; border:1.5px dashed var(--idea); width:11px; height:11px}
+.toggle{display:inline-flex; align-items:center; font-size:12.5px; color:var(--ink-2)}
+.toggle[aria-pressed="false"]{color:var(--ink-3)}
+.toggle[aria-pressed="false"] .sw.c{border-color:currentColor; opacity:.55}
 .legend .hint{margin-left:auto; font-size:11.5px; color:var(--ink-3)}
 @media (max-width:640px){ .legend .hint{margin-left:0; flex-basis:100%} }
 
@@ -189,6 +211,27 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
 .gap .yr{font-size:14px; opacity:.4}
 .gap span{font-size:11.5px; color:var(--ink-3); opacity:.7}
 
+.ideas{border-top:1px solid var(--edge)}
+.ideas .railhead{border-bottom:1px solid color-mix(in srgb, var(--edge) 55%, transparent)}
+.idea-row{
+  display:grid; grid-template-columns:52px minmax(0,1fr); gap:0 12px;
+  width:100%; text-align:left; padding:9px 16px; position:relative; transition:background .15s;
+}
+.idea-row+.idea-row{border-top:1px solid color-mix(in srgb, var(--edge) 55%, transparent)}
+.idea-row::before{
+  content:""; position:absolute; left:0; top:-1px; bottom:0; width:2px;
+  background:var(--idea); opacity:0; transition:opacity .15s;
+}
+.idea-row:hover,.idea-row.hot{background:var(--idea-soft)}
+.idea-row.hot::before{opacity:1}
+.rank{
+  display:grid; place-items:center; width:27px; height:27px; border-radius:50%;
+  border:1.5px dashed var(--idea); color:var(--idea);
+  font:600 12.5px/1 "IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums;
+}
+.idea-row.hot .rank{background:var(--idea); border-style:solid; color:var(--card)}
+.why{display:block; margin-top:4px; font-size:12px; line-height:1.45; color:var(--ink-3)}
+
 /* ---------- country tally ---------- */
 .tally{padding:14px 16px 16px; border-top:1px solid var(--edge)}
 .tally h2{font:500 10.5px/1 "IBM Plex Mono",ui-monospace,monospace; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin-bottom:11px}
@@ -230,7 +273,8 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
       <div class="legend">
         <span><i class="sw a"></i>Jahrestour</span>
         <span><i class="sw b"></i>2008 · EU Trip, acht Stationen</span>
-        <span class="hint">Klicken isoliert eine Tour · Esc hebt auf</span>
+        <button class="toggle" id="toggle" aria-pressed="true"><i class="sw c"></i>Vorschläge</button>
+        <span class="hint">Klicken isoliert ein Ziel · Esc hebt auf</span>
       </div>
     </div>
 
@@ -240,6 +284,10 @@ h1{font:600 clamp(30px,4.6vw,46px)/1.02 Fraunces,Georgia,serif; letter-spacing:-
         <button class="reset" id="reset" hidden>Alle zeigen</button>
       </div>
       <div class="list" id="list"></div>
+      <div class="ideas">
+        <div class="railhead"><h2>Vorschläge · noch nicht gewesen</h2></div>
+        <div id="ideas"></div>
+      </div>
       <div class="tally">
         <h2>Besuchte Länder</h2>
         <div id="tally"></div>
@@ -273,8 +321,15 @@ const TRIPS = [
   {y:2025, name:"Bremen", stops:[["Bremen","Deutschland","e"]]},
   {y:2026, name:"Bratislava", stops:[["Bratislava","Slowakei","e"]]},
 ];
+const IDEAS = [
+  {name:"Krakau",    ctry:"Polen",      dir:"e",  why:"Der einzige große weiße Fleck mitten im Kerngebiet — ihr wart rundherum, nie drin."},
+  {name:"Ljubljana", ctry:"Slowenien",  dir:"se", why:"Kleine Hauptstadt plus Bled als Abstecher: das Chiemsee-Format von 2013."},
+  {name:"Belgrad",   ctry:"Serbien",    dir:"e",  why:"Schließt die Donau-Kette nach Wien, Bratislava und Budapest ab."},
+  {name:"Porto",     ctry:"Portugal",   dir:"e",  why:"Das andere Portugal, vierzehn Jahre nach Lissabon — und ein echter Flug."},
+  {name:"Edinburgh", ctry:"Schottland", dir:"e",  why:"In neunzehn Jahren nie auf den Inseln. Achtung: Reisepass nötig, Ausweis reicht nicht."},
+];
 const GAPS = {2016:8, 2020:11, 2021:11};   // year -> index of the trip it follows
-const XY = {"Olbia": [510.2, 662], "Stockholm": [645.5, 108.3], "Paris": [372.8, 419.4], "Valencia": [282.5, 689.3], "Bilbao": [243.1, 569], "Pisa": [529.9, 579], "Catania": [642.7, 760.4], "Barcelona": [346.8, 639.4], "Prag": [605.7, 388.3], "Rimini": [576.1, 567.9], "Wien": [646.9, 440.8], "Lissabon": [78.5, 672.4], "Chiemsee": [570.3, 454.8], "Nizza": [462.7, 578.1], "Amsterdam": [429, 319.7], "Budapest": [701.7, 456.4], "Dresden": [591, 360.2], "Bukarest": [859.8, 522.3], "Spessart": [510, 391.4], "Nürnberg": [542.1, 409], "Brüssel": [415.9, 364], "Bremen": [500.1, 301.6], "Bratislava": [661.5, 441.2], "Rom": [576.7, 632]};
+const XY = {"Olbia": [510.2, 662], "Stockholm": [645.5, 108.3], "Paris": [372.8, 419.4], "Valencia": [282.5, 689.3], "Bilbao": [243.1, 569], "Pisa": [529.9, 579], "Catania": [642.7, 760.4], "Barcelona": [346.8, 639.4], "Prag": [605.7, 388.3], "Rimini": [576.1, 567.9], "Wien": [646.9, 440.8], "Lissabon": [78.5, 672.4], "Chiemsee": [570.3, 454.8], "Nizza": [462.7, 578.1], "Amsterdam": [429, 319.7], "Budapest": [701.7, 456.4], "Dresden": [591, 360.2], "Bukarest": [859.8, 522.3], "Spessart": [510, 391.4], "Nürnberg": [542.1, 409], "Brüssel": [415.9, 364], "Bremen": [500.1, 301.6], "Bratislava": [661.5, 441.2], "Rom": [576.7, 632], "Krakau": [709.8, 378.8], "Ljubljana": [613.9, 506.9], "Belgrad": [740.5, 532.3], "Porto": [107.6, 604.6], "Edinburgh": [302, 197.3]};
 const W = 1000, H = 828;
 
 const pinsEl = document.getElementById("pins");
@@ -291,6 +346,13 @@ TRIPS.forEach((t, ti) => t.stops.forEach(([city, , dir], si) => {
         + ` aria-label="${esc(city)}, ${t.y}"><span class="hit"></span><span class="dot"></span>`
         + `<span class="tag">${t.tour ? "" : `<i>${t.y}</i> `}${esc(city)}</span></button>`;
 }));
+IDEAS.forEach((p, k) => {
+  const [x, y] = XY[p.name];
+  html += `<button class="pin idea" data-dir="${p.dir}" data-k="${k}"`
+        + ` style="--x:${(x/W*100).toFixed(3)}%;--y:${(y/H*100).toFixed(3)}%"`
+        + ` aria-label="Vorschlag ${k+1}: ${esc(p.name)}, ${esc(p.ctry)}"><span class="hit"></span>`
+        + `<span class="dot"><i>${k+1}</i></span><span class="tag">${esc(p.name)}</span></button>`;
+});
 pinsEl.innerHTML = html;
 
 /* ---- chronicle ---- */
@@ -310,6 +372,11 @@ TRIPS.forEach((t, ti) => {
 });
 listEl.innerHTML = html;
 
+document.getElementById("ideas").innerHTML = IDEAS.map((p, k) =>
+  `<button class="idea-row" data-k="${k}"><div class="rank">${k+1}</div><div>`
+  + `<div class="dest">${esc(p.name)}</div><div class="meta"><span class="ctry">${esc(p.ctry)}</span></div>`
+  + `<span class="why">${esc(p.why)}</span></div></button>`).join("");
+
 /* ---- country tally ---- */
 const tally = {};
 TRIPS.forEach(t => t.stops.forEach(s => tally[s[1]] = (tally[s[1]] || 0) + 1));
@@ -320,42 +387,70 @@ document.getElementById("tally").innerHTML = ranked.map(([c, n]) =>
 ).join("");
 
 /* ---- interaction ---- */
+const ideasEl = document.getElementById("ideas");
+const toggleEl = document.getElementById("toggle");
 const pinNodes = [...pinsEl.children];
 const entryNodes = [...listEl.querySelectorAll(".entry")];
 const stopNodes = [...listEl.querySelectorAll(".stop")];
-let locked = null;   // {t, s|null} when a trip is isolated
+const ideaNodes = [...ideasEl.children];
+let locked = null;   // {t, s|null} for a trip, {k} for a proposal
+
+const isIdea = o => o != null && o.k != null;
+const keyOf = o => isIdea(o) ? `k${o.k}` : `t${o.t}:${o.s}`;
+
+function setIdeas(on) {
+  pinsEl.classList.toggle("hide-ideas", !on);
+  toggleEl.setAttribute("aria-pressed", String(on));
+}
 
 function paint(hot) {
   const on = hot || locked;
   pinsEl.classList.toggle("filtered", !!on);
-  for (const p of pinNodes)
-    p.classList.toggle("hot", !!on && +p.dataset.t === on.t && (on.s == null || +p.dataset.s === on.s));
-  for (const e of entryNodes) e.classList.toggle("hot", !!on && +e.dataset.t === on.t);
+  for (const p of pinNodes) {
+    const mine = p.dataset.k !== undefined;
+    p.classList.toggle("hot", !!on && (isIdea(on)
+      ? mine && +p.dataset.k === on.k
+      : !mine && +p.dataset.t === on.t && (on.s == null || +p.dataset.s === on.s)));
+  }
+  const trip = on && !isIdea(on) ? on : null;
+  for (const e of entryNodes) e.classList.toggle("hot", !!trip && +e.dataset.t === trip.t);
   for (const s of stopNodes)
-    s.classList.toggle("hot", !!on && +s.dataset.t === on.t && on.s != null && +s.dataset.s === on.s);
+    s.classList.toggle("hot", !!trip && +s.dataset.t === trip.t && trip.s != null && +s.dataset.s === trip.s);
+  for (const r of ideaNodes) r.classList.toggle("hot", isIdea(on) && +r.dataset.k === on.k);
   resetEl.hidden = !locked;
 }
 
 const targetOf = el => {
-  const n = el.closest("[data-t]");
-  return n ? {t: +n.dataset.t, s: n.classList.contains("entry") ? null : +n.dataset.s} : null;
+  const n = el.closest("[data-t],[data-k]");
+  if (!n) return null;
+  if (n.dataset.k !== undefined) return {k: +n.dataset.k};
+  return {t: +n.dataset.t, s: n.classList.contains("entry") ? null : +n.dataset.s};
 };
 
-for (const root of [pinsEl, listEl]) {
-  root.addEventListener("pointerover", e => { const t = targetOf(e.target); if (t) paint(t); });
+/* a proposal picked from the list pulls its layer back into view */
+const reveal = t => { if (isIdea(t)) setIdeas(true); };
+
+for (const root of [pinsEl, listEl, ideasEl]) {
+  root.addEventListener("pointerover", e => { const t = targetOf(e.target); if (t) { reveal(t); paint(t); } });
   root.addEventListener("pointerout", e => { if (!root.contains(e.relatedTarget)) paint(null); });
-  root.addEventListener("focusin", e => { const t = targetOf(e.target); if (t) paint(t); });
+  root.addEventListener("focusin", e => { const t = targetOf(e.target); if (t) { reveal(t); paint(t); } });
   root.addEventListener("focusout", e => { if (!root.contains(e.relatedTarget)) paint(null); });
   root.addEventListener("click", e => {
     const t = targetOf(e.target);
     if (!t) return;
-    locked = (locked && locked.t === t.t && locked.s === t.s) ? null : t;
+    reveal(t);
+    locked = (locked && keyOf(locked) === keyOf(t)) ? null : t;
     paint(t);
-    if (root === pinsEl && locked) {
+    if (root === pinsEl && locked && !isIdea(t)) {
       entryNodes[t.t].scrollIntoView({block: "nearest", behavior: "smooth"});
     }
   });
 }
+toggleEl.addEventListener("click", () => {
+  const on = toggleEl.getAttribute("aria-pressed") !== "true";
+  setIdeas(on);
+  if (!on && isIdea(locked)) { locked = null; paint(null); }
+});
 resetEl.addEventListener("click", () => { locked = null; paint(null); });
 document.addEventListener("keydown", e => { if (e.key === "Escape" && locked) { locked = null; paint(null); } });
 </script>

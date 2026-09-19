@@ -103,6 +103,9 @@ const CITIES = {
   Chiemsee:[12.463,47.885], Nizza:[7.262,43.710], Amsterdam:[4.895,52.370], Budapest:[19.040,47.498],
   Dresden:[13.737,51.050], Bukarest:[26.103,44.427], Spessart:[9.400,50.050], 'Nürnberg':[11.077,49.452],
   'Brüssel':[4.353,50.847], Bremen:[8.802,53.079], Bratislava:[17.108,48.149], Rom:[12.496,41.903],
+  // Vorschlaege (noch nicht besucht)
+  Krakau:[19.945,50.065], Ljubljana:[14.506,46.057], Belgrad:[20.449,44.787],
+  Porto:[-8.629,41.158], Edinburgh:[-3.188,55.953],
 };
 const pins = {};
 for (const [k, v] of Object.entries(CITIES)) pins[k] = place(v).map(x => +x.toFixed(1));

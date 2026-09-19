@@ -11,6 +11,10 @@ Interaktive Europakarte mit allen Jahrestouren von 2008 bis 2025.
   vereinfacht die Umrisse per Douglas-Peucker und gibt Ländergrenzen,
   Gradnetz und Pin-Koordinaten als SVG-Pfade aus.
 
-Die Reisedaten selbst stehen als `TRIPS`-Array direkt im `<script>`-Block der HTML-Datei.
-Ein neues Jahr ergänzt man dort; neue Orte brauchen zusätzlich einen Eintrag in
-`CITIES` in `build.mjs` und einen erneuten Build.
+Die Reisedaten stehen als `TRIPS`-Array direkt im `<script>`-Block der HTML-Datei,
+die Vorschläge daneben als `IDEAS`. Ein neues Jahr ergänzt man in `TRIPS`; neue Orte
+brauchen zusätzlich einen Eintrag in `CITIES` in `build.mjs` und einen erneuten Build.
+
+Besuchte Orte sind gefüllte Pins (rot für Jahrestouren, bernstein für die Stationen
+des 2008er EU-Trips), Vorschläge gestrichelte Ringe mit Rangnummer. Die
+Vorschlagsebene lässt sich über die Legende aus- und einblenden.
